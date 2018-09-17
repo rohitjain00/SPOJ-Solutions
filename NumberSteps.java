@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class NumberSteps {
-    public static int calculate(int x, int y) {
+    private static int calculate(int x, int y) {
         int num;
         if (y % 2 == 0) {
             y /= 2;
