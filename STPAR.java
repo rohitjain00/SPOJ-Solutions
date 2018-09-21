@@ -8,7 +8,6 @@ public class STPAR {
     sc.nextLine();
 
     while (n!= 0) {
-
       String[] arr = sc.nextLine().split(" ");
       Stack<Integer> st = new Stack<>();
       int currMobile = 1;
@@ -23,9 +22,9 @@ public class STPAR {
 
         }
       }
-      while (st.pop() == currMobile) {
+      while (st.peek() == currMobile) {
         currMobile++;
-
+        int temp = st.pop();
       }
       if (currMobile == n) {
         System.out.println("yes");
