@@ -1,40 +1,42 @@
-import java.util.Scanner;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
+import static java.lang.Integer.parseInt;
 
-public class STPAR {
-  public static void main(String args[]) {
-    Scanner sc = new Scanner(System.in);
-    int n = sc.nextInt();
-    sc.nextLine();
+public class STPAR
+{
+  private static BufferedReader f;
 
-    while (n!= 0) {
-      String[] arr = sc.nextLine().split(" ");
-      Stack<Integer> st = new Stack<>();
-      int currMobile = 1;
+  public static void main(String[] args) throws IOException {
+    f = new BufferedReader(new InputStreamReader(System.in));
 
-      for (int i = 0; i < n; i++) {
+    StringTokenizer st;
+    int index, i, a;
+    Stack<Integer> s;
+    while(true)
+    {
+      int n = parseInt(f.readLine());
+      if(n == 0) break;
+      st = new StringTokenizer(f.readLine());
+      index = 1;
+      s = new Stack<Integer>();
+      for(i = 0; i < n; i++)
+      {
+        a = parseInt(st.nextToken());
 
-        if (Integer.parseInt(arr[i]) == currMobile) {
-          currMobile++;
+        if(a == index) {index++; continue; }
 
-        } else {
-          st.push(Integer.parseInt(arr[i]));
+        while(s.size() > 0 && s.peek() == index)
+        { s.pop(); index++; }
 
-        }
+        if(s.size() > 0 && s.peek() < a) break;
+
+        s.push(a);
       }
-      while (st.peek() == currMobile) {
-        currMobile++;
-        int temp = st.pop();
-      }
-      if (currMobile == n) {
-        System.out.println("yes");
 
-      } else {
-        System.out.println("no");
-
-      }
-      n = sc.nextInt();
-      sc.nextLine();
+      if(i == n) System.out.println("yes");
+      else System.out.println("no");
+      System.out.flush();
     }
+    System.exit(0);
   }
 }
