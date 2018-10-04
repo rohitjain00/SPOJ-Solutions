@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -7,51 +6,68 @@ import java.util.Scanner;
 public class PTO7Y {
 
   static class Graph {
-    int V;
-    LinkedList<Integer> adjListArray[];
 
-    // constructor
+    private int V;
+    LinkedList<Integer> adj[];
+
     Graph(int V) {
       this.V = V;
-      adjListArray = new LinkedList[V];
-      for(int i = 0; i < V ; i++){
-        adjListArray[i] = new LinkedList<>();
+      for (int i = 0 ; i< V; i++) {
+          adj[i]= new LinkedList<>();
       }
     }
-    public int V() {
-      return V;
+    void addEdge(int v, int w) {
+      adj[v].add(w);
+      adj[w].add(v);
     }
-  }
-  static void addEdge(Graph graph, int src, int dest) {
-    graph.adjListArray[src].addFirst(dest);
-    graph.adjListArray[dest].addFirst(src);
-  }
+    Boolean isTreeTopology(int v, boolean[] visited, int parent) {
+      visited[v] = true;
+      int i;
 
-  static boolean hasLoop(Graph G, int i, boolean[] visited) {
+      Iterator<Integer> it = adj[v].iterator();
+      while (it.hasNext()) {
+        i = it.next();
 
-
-
-      Iterator<Integer> adj = G.adjListArray[i].iterator();
-      while (adj.hasNext()) {
-        int
-        hasLoop(G, adj.next(),visited);
+        if (!visited[i]) {
+          if (isTreeTopology(i,visited,v)) {
+            return true;
+          }
+        } else  if (i != parent){
+          return true;
+        }
       }
-      visited[i] = true;
+      return false;
     }
-    return true;
+    boolean isTree() {
+      boolean[] visited = new boolean[this.V];
+      for (int i = 0 ; i < this.V; i++) {
+        visited[i] = false;
+      }
 
+      if (!isTreeTopology(1,visited,-1)) {
+        return false;
+      }
+
+      for (int i = 0; i < this.V; i++) {
+        if (!visited[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
   }
 
-  public static void main(String args[]) {
-    Scanner sc = new Scanner(System.in);
-    int[] MN =  Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-    Graph G = new Graph(MN[0]);
-    Boolean[] visited = new Boolean[MN[0]];
+public static void main(String args[]) {
+  Scanner sc = new Scanner(System.in);
+    int[] MN =
+        Arrays.asList(sc.nextLine().split(" ")).stream().mapToInt(Integer::parseInt).toArray();
+    Graph G = new Graph(MN[0] + 1);
     for (int i = 0; i < MN[1]; i++) {
-      int[] temp =  Arrays.stream(sc.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-      addEdge(G,temp[0],temp[1]);
+      int[] Edge =
+          Arrays.asList(sc.nextLine().split(" ")).stream().mapToInt(Integer::parseInt).toArray();
+      G.addEdge(Edge[0], Edge[1]);
     }
-    if (hasLoop(G,1,visited)) {
+    if (G.isTree()) {
       System.out.println("YES");
     } else {
       System.out.println("NO");
