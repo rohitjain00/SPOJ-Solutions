@@ -1,5 +1,5 @@
 package PACKAGE_NAME;
 
-public class EDIST {
+public class GIRLSNBS {
 
 }
